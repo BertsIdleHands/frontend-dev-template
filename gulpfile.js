@@ -21,6 +21,7 @@ var browserSync = require('browser-sync').create();
 //styles
 gulp.task('styles', function() {
 	return gulp.src(['./frontend-src/sass/**/*.scss'])
+		.pipe(plumber())
 		.pipe(compass({
 			css: 'public/css',
 			sass: 'frontend-src/sass',
@@ -37,27 +38,17 @@ gulp.task('styles', function() {
 //javascript
 function compile(watch) {
 	var bundler = watchify(browserify('./frontend-src/js/main.js', { debug: true }).transform(babel));
-	function rebundle() {
-	    bundler.bundle()
-	      .on('error', function(err) { console.error(err); this.emit('end'); })
-	      .pipe(source('build.js'))
-	      .pipe(buffer())
-	      .pipe(sourcemaps.init({ loadMaps: true }))
-	      .pipe(sourcemaps.write('./'))
-	      .pipe(gulp.dest('./public/js'))
-	      .pipe(browserSync.stream());
-	}
-
-	if (watch) {
-		bundler.on('update', function() {
-	  		rebundle();
-		});
-	}
-	rebundle();
+	bundler.bundle()
+      .on('error', function(err) { console.error(err); this.emit('end'); })
+      .pipe(source('build.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./public/js'))
+      .pipe(browserSync.stream());
 }
 
 gulp.task('javascript', function() { return compile(); });
-gulp.task('javascript-watch', function() { return compile(true); });
 gulp.task('default', ['styles','javascript']);
 
 gulp.task('watch', function() {
@@ -67,9 +58,9 @@ gulp.task('watch', function() {
         }
   	});
 
-  	gulp.watch('./frontend-src/js/**/*.js', ['javascript-watch']);
+  	gulp.watch('./frontend-src/js/**/*.js', ['javascript']);
   	gulp.watch('./frontend-src/sass/**/*.scss', ['styles']);
-  	gulp.watch("app/**/*.html").on('change', browserSync.reload);
+  	gulp.watch('**/*.html').on('change', browserSync.reload);
   	gulp.watch(['**/*.css']).on("change", function(file) {
         browserSync.reload(file.path);
     });

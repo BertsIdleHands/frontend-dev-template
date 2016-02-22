@@ -1,12 +1,8 @@
 {
-  "name": "Idlehands.be",
-  "description": "My brand new portfolio site",
-  "version": "1.0.1",
+  "name": "",
+  "description": "",
+  "version": "",
   "author": "Bert Vermeire <bert@idlehands.be>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/BertsIdleHands/concentration.git"
-  },
   "devDependencies": {
     "babelify": "^6.3.0",
     "browserify": "^11.2.0",
@@ -23,9 +19,10 @@
     "path": "^0.12.7",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.4.0"
+    "watchify": "^3.4.0",
+    "browser-sync": "^2.9.6"
   },
   "dependencies": {
-    "browser-sync": "^2.9.6"
+      
   }
 }

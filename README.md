@@ -1,1 +1,4 @@
-# frontend-dev-template
+# Frontend template for new projects
+
+Using Gulp, Browserify / Babel and Compass.
+
